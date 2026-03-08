@@ -15,14 +15,13 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json();
     const { currentPassword, newPassword } = body;
 
-    const currentStr =
-      typeof currentPassword === "string" ? currentPassword : "";
+    const currentStr = typeof currentPassword === "string" ? currentPassword : "";
     const newStr = typeof newPassword === "string" ? newPassword : "";
 
     if (!currentStr) {
       return NextResponse.json(
         { error: "Current password is required" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -31,7 +30,7 @@ export async function PATCH(request: NextRequest) {
         {
           error: `New password must be at least ${MIN_PASSWORD_LENGTH} characters`,
         },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -47,7 +46,7 @@ export async function PATCH(request: NextRequest) {
     if (!valid) {
       return NextResponse.json(
         { error: "Current password is incorrect" },
-        { status: 401 },
+        { status: 401 }
       );
     }
 
@@ -63,7 +62,7 @@ export async function PATCH(request: NextRequest) {
     console.error("PATCH /api/profile/password error:", error);
     return NextResponse.json(
       { error: "Failed to update password" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

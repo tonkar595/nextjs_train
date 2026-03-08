@@ -57,14 +57,16 @@ export async function PATCH(request: NextRequest) {
     const { name, username: rawUsername, bio } = body;
 
     const nameStr = typeof name === "string" ? name.trim() : "";
-    const bioStr =
-      typeof bio === "string" ? bio.trim().slice(0, BIO_MAX) : undefined;
+    const bioStr = typeof bio === "string" ? bio.trim().slice(0, BIO_MAX) : undefined;
     const username = rawUsername
       ? slugFromUsername(String(rawUsername))
       : undefined;
 
     if (!nameStr) {
-      return NextResponse.json({ error: "Name is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Name is required" },
+        { status: 400 }
+      );
     }
 
     if (username !== undefined) {
@@ -74,7 +76,7 @@ export async function PATCH(request: NextRequest) {
             error:
               "Username must be 2+ characters, letters, numbers, underscores only",
           },
-          { status: 400 },
+          { status: 400 }
         );
       }
 
@@ -88,7 +90,7 @@ export async function PATCH(request: NextRequest) {
       if (existingUsername) {
         return NextResponse.json(
           { error: "Username is already taken" },
-          { status: 409 },
+          { status: 409 }
         );
       }
     }
@@ -132,7 +134,7 @@ export async function PATCH(request: NextRequest) {
     console.error("PATCH /api/profile error:", error);
     return NextResponse.json(
       { error: "Failed to update profile" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
